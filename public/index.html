@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reset Password | CyberOps</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #001F2E, #003D40);
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      width: 400px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+    }
+    h2 {
+      color: #00FFD1;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 14px;
+      text-align: center;
+    }
+    button {
+      background: #00FFD1;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    button:hover {
+      background: #00bfae;
+    }
+    .logo {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img class="logo" src="logo.png" alt="CyberOps Logo" />
+    <h2>Reset Your Password</h2>
+    <p id="email-text"></p>
+    <input id="newPassword" type="password" placeholder="Enter new password" />
+    <button id="resetBtn">SAVE PASSWORD</button>
+    <p id="status"></p>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "cyberops-3675a.firebaseapp.com",
+      projectId: "cyberops-3675a",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Extract oobCode from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const oobCode = urlParams.get('oobCode');
+
+    document.getElementById('resetBtn').addEventListener('click', async () => {
+      const newPassword = document.getElementById('newPassword').value;
+      try {
+        await auth.confirmPasswordReset(oobCode, newPassword);
+        document.getElementById('status').textContent = "✅ Password successfully reset!";
+      } catch (error) {
+        document.getElementById('status').textContent = "❌ " + error.message;
+      }
+    });
+  </script>
+</body>
+</html>

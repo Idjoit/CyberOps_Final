@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberOps Account Action</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #001F2E, #003D40);
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      width: 400px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+    }
+    h2 {
+      color: #00FFD1;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    input, button {
+      width: 80%;
+      padding: 10px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Orbitron';
+    }
+    input {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    button {
+      background: #00FFD1;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #00bfae;
+    }
+    .message {
+      margin-top: 10px;
+      color: #b2f7ef;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 id="title">Processing...</h2>
+    <div id="content"></div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
+
+  <script>
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAc_wKTQWcsnoOSPE_UbkqNQIj9aXcvZ5Y",
+      authDomain: "cyberops-3675a.firebaseapp.com",
+      projectId: "cyberops-3675a",
+      storageBucket: "cyberops-3675a.firebasestorage.app",
+      messagingSenderId: "649813364064",
+      appId: "1:649813364064:web:fbfd418a67c1f54e856205",
+      measurementId: "G-RCJNKKS8SJ"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode');
+    const oobCode = params.get('oobCode');
+
+    const title = document.getElementById('title');
+    const content = document.getElementById('content');
+
+      console.log("URL Params:", window.location.search);
+      console.log("Mode:", mode);
+      console.log("oobCode:", oobCode);
+
+    if (mode === 'verifyEmail') {
+      title.textContent = "Verifying Email...";
+      auth.applyActionCode(oobCode)
+        .then(() => {
+          title.textContent = "✅ Email Verified!";
+          content.innerHTML = `<div class="message">You can now log in to CyberOps.</div>`;
+        })
+        .catch((err) => {
+          title.textContent = "❌ Verification Failed";
+          content.innerHTML = `<div class="message">${err.message}</div>`;
+        });
+    }
+
+    else if (mode === 'resetPassword') {
+      title.textContent = "Reset Password";
+      content.innerHTML = `
+        <input type="password" id="newPass" placeholder="Enter new password" />
+        <button id="resetBtn">Reset Password</button>
+        <div id="msg" class="message"></div>
+      `;
+      const resetBtn = document.getElementById('resetBtn');
+      const msg = document.getElementById('msg');
+
+      resetBtn.onclick = async () => {
+        const newPass = document.getElementById('newPass').value;
+        try {
+          await auth.confirmPasswordReset(oobCode, newPass);
+          msg.textContent = "✅ Password has been reset! You may log in now.";
+        } catch (err) {
+          msg.textContent = "❌ " + err.message;
+        }
+      };
+    }
+
+    else {
+      title.textContent = "Unknown Action";
+      content.innerHTML = `<div class="message">Invalid or expired link.</div>`;
+    }
+  </script>
+</body>
+</html>
