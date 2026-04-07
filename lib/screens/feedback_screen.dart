@@ -1,3 +1,12 @@
+/// FeedbackScreen
+/// ------------------------------------------------------------
+/// A stateless screen that displays feedback after a user makes a
+/// decision in a scenario-based activity (e.g., quiz, game, training app).
+///
+/// It shows:
+/// - Whether the answer is correct or incorrect
+/// - A feedback/explanation message
+/// - A button to proceed to the next scenario
 import 'package:flutter/material.dart';
 
 class FeedbackScreen extends StatelessWidget {
