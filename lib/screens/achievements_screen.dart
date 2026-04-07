@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AchievementsScreen extends StatefulWidget {
-  final String userId; // Firestore user ID
-  final bool embedded; // hides AppBar if true
+  final String userId; 
+  final bool embedded; 
 
   const AchievementsScreen({
     super.key,
@@ -40,7 +40,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
   Future<void> _loadAchievements() async {
     try {
-      // 🧩 Skip Firestore lookup for guest mode
+      // Skip Firestore lookup for guest mode
       if (widget.userId == "guest") {
         setState(() {
           _achievements = [];
@@ -49,7 +49,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
         return;
       }
 
-      // 🔹 Fetch achievements from Firestore
+      // Fetch achievements from Firestore
       final snapshot = await _firestore
           .collection('user_progress')
           .doc(widget.userId)
