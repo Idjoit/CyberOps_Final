@@ -3,7 +3,7 @@ import 'package:cyberops/database/analytics_dao.dart';
 class AnalyticsService {
   final AnalyticsDao _dao = AnalyticsDao();
 
-  /// 🧮 Returns a map of analytics for a given user
+  /// Returns a map of analytics for a given user
   Future<Map<String, dynamic>> getUserAnalytics(int userId) async {
     final totalSessions = await _dao.getTotalSessions();
     final avgAccuracy = await _dao.getAverageAccuracy();
@@ -19,7 +19,7 @@ class AnalyticsService {
     };
   }
 
-  /// 📊 Returns global analytics across all users
+  /// Returns global analytics across all users
   Future<Map<String, dynamic>> getGlobalAnalytics() async {
     final totalSessions = await _dao.getTotalSessions();
     final avgAccuracy = await _dao.getAverageAccuracy();
