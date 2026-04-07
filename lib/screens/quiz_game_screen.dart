@@ -59,7 +59,7 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
 
       _startTimer();
     } catch (e) {
-      debugPrint("⚠️ Error loading quiz questions: $e");
+      debugPrint("Error loading quiz questions: $e");
       setState(() => _loading = false);
     }
   }
@@ -223,7 +223,7 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
           children: [
             // 🔹 Mission Header
             Text(
-              "🧠 CYBEROPS TRAINING — MODULE ${widget.moduleOrder}",
+              " CYBEROPS TRAINING — MODULE ${widget.moduleOrder}",
               style: GoogleFonts.orbitron(
                 color: Colors.tealAccent,
                 fontSize: 16,
