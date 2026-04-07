@@ -1,3 +1,4 @@
+//data
 class AnalyticsLog {
   final int? id;
   final int userId;
