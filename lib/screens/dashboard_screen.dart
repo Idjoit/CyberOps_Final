@@ -11,12 +11,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 
-
-
 import 'package:cyberops/screens/admin/admin_dashboard_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
-  final String userId; // Firestore doc ID
+  final String userId;
   final bool isGuest;
 
   const DashboardScreen({
@@ -46,7 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _xp = 0;
   int _streak = 0;
 
-  // 🧩 New: role handling
+  //New: role handling
   String _role = "user";
 
   @override
@@ -74,7 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
 
     try {
-      // 🔹 Load user profile for name + role
+      // Load user profile for name + role
       final userInfo =
           await _firestore.collection('users').doc(widget.userId).get();
       if (userInfo.exists) {
@@ -83,7 +81,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _role = data['role'] ?? 'user';
       }
 
-      // 🔹 Load user progress
+      //  Load user progress
       final userDoc =
           await _firestore.collection('user_progress').doc(widget.userId).get();
 
@@ -124,7 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         };
       }
 
-      // 🔹 Fetch Firestore achievements
+      // Fetch Firestore achievements
       final achievementsSnapshot = await _firestore
           .collection('user_progress')
           .doc(widget.userId)
@@ -204,7 +202,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         actions: [
-          // 🧩 New: Admin panel button (only visible for admins)
+          //New: Admin panel button (only visible for admins)
           if (_role == "admin")
             IconButton(
               icon: const Icon(Icons.admin_panel_settings,
