@@ -1,16 +1,47 @@
+/// GameProgress Model
+/// ------------------------------------------------------------
+/// Represents the player's progress and performance in the game.
+///
+/// This model is used for:
+/// - Tracking player stats (scores, XP, level, streak)
+/// - Saving progress to database (Firestore / SQLite)
+/// - Loading progress back into the app
 class GameProgress {
-  final int userId;
-  final int currentScenario;
-  final int securityScore;
-  final int awarenessScore;
-  final int moneyScore;
-  final int trustScore;
-  int xp;
-  int level;
-  int streak;
-  final int difficultyLevel;
-  final String timestamp; 
 
+  /// Unique user identifier
+  final int userId;
+
+  /// Current scenario or stage the player is in
+  final int currentScenario;
+
+  /// Player's security decision score
+  final int securityScore;
+
+  /// Player's awareness level score
+  final int awarenessScore;
+
+  /// Player's financial/resource score
+  final int moneyScore;
+
+  /// Player's trust/reputation score
+  final int trustScore;
+
+  /// Experience points gained by the player
+  int xp;
+
+  /// Current player level
+  int level;
+
+  /// Current streak (consecutive successful scenarios)
+  int streak;
+
+  /// Difficulty level of the current gameplay
+  final int difficultyLevel;
+
+  /// Timestamp of last progress update (stored as String)
+  final String timestamp;
+
+  /// Constructor
   GameProgress({
     required this.userId,
     required this.currentScenario,
@@ -22,9 +53,13 @@ class GameProgress {
     required this.level,
     required this.streak,
     required this.difficultyLevel,
-    required this.timestamp, 
+    required this.timestamp,
   });
 
+  /// ------------------------------------------------------------
+  /// Converts GameProgress object into a Map
+  /// Used for saving data into database (Firestore / SQLite)
+  /// ------------------------------------------------------------
   Map<String, dynamic> toMap() => {
         'user_id': userId,
         'current_scenario': currentScenario,
@@ -36,9 +71,13 @@ class GameProgress {
         'level': level,
         'streak': streak,
         'difficulty_level': difficultyLevel,
-        'timestamp': timestamp, 
+        'timestamp': timestamp,
       };
 
+  /// ------------------------------------------------------------
+  /// Factory constructor to create GameProgress from a Map
+  /// Used when retrieving data from database
+  /// ------------------------------------------------------------
   factory GameProgress.fromMap(Map<String, dynamic> map) => GameProgress(
         userId: map['user_id'],
         currentScenario: map['current_scenario'],
@@ -50,6 +89,6 @@ class GameProgress {
         level: map['level'],
         streak: map['streak'],
         difficultyLevel: map['difficulty_level'],
-        timestamp: map['timestamp'], 
+        timestamp: map['timestamp'],
       );
 }
